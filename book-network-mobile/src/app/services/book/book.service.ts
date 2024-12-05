@@ -26,6 +26,9 @@ export class BookService {
   private readonly upploadFilesUrl:string="/books/cover/"
   private readonly getBookByIdUrl: String="/books/"
   private readonly approuvedBookUrl: string ='/books/borrow/return/approved/'
+  private readonly addBookWaitingListUrl: String="/books/waiting-list/"
+   private readonly WaitingListUrl: String="/books/waiting-list"
+   private readonly deleteBookFromWaitingList: String="/books/waiting-list/"
 
 
   constructor(private http:HttpClient) { }
@@ -77,6 +80,18 @@ getBookById(bookId:number) {
 approuvedBook(bookId:number){
   return this.http.patch<number>(`${BaseRoute.rootUrl}${this.approuvedBookUrl}${bookId}`,{})
 }
+
+addBookToWaitingList(bookId:number){
+  return this.http.post<number>(`${BaseRoute.rootUrl}${this.addBookWaitingListUrl}${bookId}`,{})
+}
+
+waitingList(param:PageParams) {
+  return this.http.get<BookPageResponse>(`${BaseRoute.rootUrl}${this.WaitingListUrl}`,{params:{...param}})
+ }
+ deleteBook(bookId:number){
+  return this.http.delete<number>(`${BaseRoute.rootUrl}${this.deleteBookFromWaitingList}${bookId}`)
+ }
+
 
 }
 

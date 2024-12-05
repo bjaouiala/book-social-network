@@ -34,12 +34,18 @@ export class TokenService {
     }
   }
 
-  async setToken(token:string): Promise<void>{
+  async setToken(token: string): Promise<void> {
     try {
-      await this.storage.set(this.tokenKey, token);
-      console.log('Token stored:', token);
+      if (token) {
+        await this.storage.set(this.tokenKey, token);
+        console.log('Token stored:', token);
+      } else {
+
+        await this.storage.remove(this.tokenKey);
+        console.log('Token removed');
+      }
     } catch (error) {
-      console.error('Error storing token:', error); 
+      console.error('Error storing token:', error);
     }
   }
 }

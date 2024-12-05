@@ -22,10 +22,12 @@
         <ion-item (click)="closeMenu()" routerLink="/borrowed-book-list" routerDirection="root">
           <ion-icon name="pricetag-outline"></ion-icon>&nbsp; Borrowed Books
         </ion-item>
-        <ion-item (click)="closeMenu()" routerLink="/notifications" routerDirection="root">
-          <ion-icon name="notifications-circle-outline"></ion-icon>&nbsp; Notifications
+        <ion-item (click)="logout()"  routerDirection="root">
+          <ion-icon (click)="closeMenu()" name="log-out-outline"></ion-icon>&nbsp; Logout
         </ion-item>
+        
       </ion-list>
+      
     </ion-content>
   </ion-menu>
   

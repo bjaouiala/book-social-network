@@ -12,7 +12,7 @@ import {ToastrService} from "ngx-toastr";
 export class MyWaitingListComponent implements OnInit{
   waitingListPageResponse: PageResponseBookResponse={}
   page:number=0
-  size:number=2
+  size:number=8
   level:string='success'
   message:string=''
   constructor(private service:BookService,private toastService:ToastrService) {

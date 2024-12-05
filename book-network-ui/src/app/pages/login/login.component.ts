@@ -4,6 +4,7 @@ import {register} from "../../services/fn/authentication/register";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
 import {TokenService} from "../../services/token/token.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent {
   errorMsg: Array<string> = []
   constructor(private router:Router,
               private authService: AuthenticationService,
-              private tokenService:TokenService) {
+              private tokenService:TokenService,
+              private toastservice:ToastrService) {
   }
 
   login() {
@@ -30,11 +32,11 @@ export class LoginComponent {
       error:(err)=>{
         console.log(err)
         if (err.error.businessErrorCode == 304){
-          this.errorMsg.push(err.error.businessErrorCode)
+          this.toastservice.info("Email or password incorrect")
         }else {
           this.errorMsg.push(err.error.error)
           if (err.error.businessErrorCode == 303){
-            console.log(err.error.businessErrorCode)
+            this.toastservice.info("user account is disabled")
             this.authService.resentCodeConfirmation(this.authRequest.email).subscribe({
               next : (res)=>{this.router.navigate(['activate-account'])}
             })

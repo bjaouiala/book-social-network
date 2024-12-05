@@ -4,18 +4,14 @@ import com.ala.book.email.EmailService;
 import com.ala.book.email.EmailTemplateName;
 import com.ala.book.role.RoleRepository;
 import com.ala.book.security.JwtService;
-import com.ala.book.user.Token;
-import com.ala.book.user.TokenRepository;
-import com.ala.book.user.User;
-import com.ala.book.user.UserRepository;
+import com.ala.book.user.*;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailSendException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -129,5 +125,11 @@ public class AuthenticationService {
         if (!user.isEnabled()){
             sendValidationEmail(user);
         }
+    }
+
+    public TokenResponse getToken(String code) {
+
+       Token token = tokenRepository.getToken(code).orElseThrow(()-> new EntityNotFoundException("no token found for the given user"));
+       return TokenResponse.builder().token(token.getToken()).build();
     }
 }

@@ -12,7 +12,7 @@ import {BookResponse} from "../../../../services/models/book-response";
 })
 export class MyBooksComponent implements OnInit {
   page: number = 0;
-  size: number = 2;
+  size: number = 8;
   bookResponse: PageResponseBookResponse = {}
 
 

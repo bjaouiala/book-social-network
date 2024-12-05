@@ -12,7 +12,7 @@ import {ToastrModule, ToastrService} from "ngx-toastr";
 })
 export class BookListComponent implements OnInit{
   page: number=0;
-  size: number=2;
+  size: number=8;
   bookResponse:PageResponseBookResponse={}
   message: string='';
   level:string='success'
