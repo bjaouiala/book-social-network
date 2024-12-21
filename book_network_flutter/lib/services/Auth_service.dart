@@ -4,6 +4,7 @@ import 'package:book_network_flutter/exceptions/BusinessException.dart';
 import 'package:book_network_flutter/models/Auth/RegisterRequest.dart';
 import 'package:book_network_flutter/models/Auth/TokenResponse.dart';
 import 'package:book_network_flutter/services/Apis.dart';
+import 'package:book_network_flutter/services/token_service.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:book_network_flutter/models/Auth/AuthenticationRequest.dart';
@@ -18,10 +19,11 @@ class _AuthService{
   },body: jsonEncode(auth.toJson()));
     if (response.statusCode == 200){
       final responseBody = jsonDecode(response.body);
-      return Authenticationresponse.fromJson(responseBody);
+      Authenticationresponse authenticationresponse = Authenticationresponse.fromJson(responseBody);
+      await tokenService.saveToken(authenticationresponse.token);
+      return authenticationresponse;
     }else if(response.statusCode == 401){
       final responseBody = jsonDecode(response.body);
-      print(responseBody["businessErrorCode"].runtimeType);
       throw Businessexception(responseBody["businessErrorCode"],responseBody["businessErrorDescription"],  responseBody["error"]);
     }else{
       throw HttpException('${response.statusCode}');
@@ -61,6 +63,21 @@ class _AuthService{
     throw Exception("no token load");
   }
 
-}}
+}
+  Future<void> activationAccount(String token) async{
+    try{
+      final response = await http.get(Uri.parse(Apis.activationAccount).replace(queryParameters: {
+        "token":token
+      }));
+      if(response.statusCode == 400){
+        final responseBody = jsonDecode(response.body);
+        throw Businessexception(responseBody["businessErrorCode"],responseBody["businessErrorDescription"],  responseBody["error"]);
+      }
+
+    }catch(e){
+      rethrow;
+    }
+  }
+}
 
 final authService = _AuthService();

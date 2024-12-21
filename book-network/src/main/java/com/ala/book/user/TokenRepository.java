@@ -13,6 +13,7 @@ public interface TokenRepository extends JpaRepository<Token,Integer> {
 SELECT token
 FROM Token token
 WHERE token.token = :code
+AND token.validateAt IS NULL
 """)
     Optional<Token> getToken(String code);
 

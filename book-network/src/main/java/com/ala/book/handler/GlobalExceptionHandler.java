@@ -89,6 +89,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponse> handle(OperationNotPerimttedException exception){
         return ResponseEntity.status(BAD_REQUEST)
                 .body(ExceptionResponse.builder()
+                        .businessErrorCode(400)
                         .error(exception.getMessage())
                         .build());
     }

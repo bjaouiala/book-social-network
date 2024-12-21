@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ShowAlert extends StatelessWidget{
+class MyWaitingList extends StatelessWidget{
 
   
   @override

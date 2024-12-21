@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:book_network_flutter/NavigationAnimation.dart';
 import 'package:book_network_flutter/exceptions/BusinessException.dart';
 import 'package:book_network_flutter/helpers/helpers.dart';
 import 'package:book_network_flutter/models/Auth/AuthenticationRequest.dart';
 import 'package:book_network_flutter/models/Auth/AuthenticationResponse.dart';
+import 'package:book_network_flutter/pages/Books.dart';
+import 'package:book_network_flutter/pages/register-page.dart';
 import 'package:book_network_flutter/services/Auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:book_network_flutter/widgets/form_field_input.dart';
@@ -22,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     final String password = passwordController.text.trim();
       Authenticationrequest auth = Authenticationrequest(email: email, password: password);
       Authenticationresponse authResponse = await authService.login(auth);
+      Navigator.push(context, Navigationanimation(page: Books()));
       print(authResponse);
     }catch(e){
       print(e);
@@ -43,11 +47,6 @@ class _LoginPageState extends State<LoginPage> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
-  }
-
-  void click() {
-    print("Email: ${emailController.text}");
-    print("Password: ${passwordController.text}");
   }
 
   @override
@@ -116,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, "/register");
+                              Navigator.push(context, Navigationanimation(page: RegisterPage()));
                             },
                             child: const Text(
                               "Register here",

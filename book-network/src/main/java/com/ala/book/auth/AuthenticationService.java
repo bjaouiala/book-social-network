@@ -2,6 +2,7 @@ package com.ala.book.auth;
 
 import com.ala.book.email.EmailService;
 import com.ala.book.email.EmailTemplateName;
+import com.ala.book.exception.OperationNotPerimttedException;
 import com.ala.book.role.RoleRepository;
 import com.ala.book.security.JwtService;
 import com.ala.book.user.*;
@@ -108,7 +109,7 @@ public class AuthenticationService {
                 .orElseThrow(()-> new RuntimeException("invalid token"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())){
             sendValidationEmail(savedToken.getUser());
-            throw new RuntimeException("Activation token has expired: A new token has been sent");
+            throw new OperationNotPerimttedException("Activation token has expired: A new token has been sent");
         }
         var user = savedToken.getUser();
         user.setEnabled(true);
