@@ -1,16 +1,17 @@
 import 'package:book_network_flutter/models/book/BookPageResponse.dart';
 import 'package:book_network_flutter/models/book/BookResponse.dart';
+import 'package:book_network_flutter/models/book/BookTransationHistory.dart';
 import 'package:book_network_flutter/services/book_service.dart';
 import 'package:flutter/material.dart';
 
-class Bookproviders with ChangeNotifier {
-  final List<BookResponse> _books = [];
+class ReturnedBookProvider with ChangeNotifier {
+  final List<BooktransactionhistoryResponse> _books = [];
   bool _isLoading = false;
   bool _hasMorePage = true; 
   int _page = 0;
-  final int _size = 2;
+  final int _size = 9;
 
-  List<BookResponse> get books => _books;
+  List<BooktransactionhistoryResponse> get books => _books;
   bool get isLoading => _isLoading;
 
 
@@ -22,7 +23,7 @@ class Bookproviders with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await bookService.getAllBooks(_page, _size); 
+      final response = await bookService.getreturnedBook(_page, _size); 
       _books.addAll(response.books);
       _hasMorePage = !response.last; 
 
@@ -37,5 +38,16 @@ class Bookproviders with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void returnBook(BooktransactionhistoryResponse bookTransationHistory){
+    final currentTransaction = books.firstWhere((b)=> b.id == bookTransationHistory.id);
+    currentTransaction.returnApproved = true;
+    notifyListeners();
+
+  }
+
+  void addBook(BookResponse book){
+    final currentTransatction = books.firstWhere((b)=> b.id == book.id);
   }
 }

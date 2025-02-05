@@ -18,9 +18,9 @@ class BookResponse {
 
    double? rate;
 
-   bool? archived;
+   bool archived;
 
-   bool? shareable;
+   bool shareable;
 
    BookResponse({
     this.id,
@@ -31,8 +31,8 @@ class BookResponse {
     this.owner,
     this.cover,
     this.rate,
-    this.archived,
-    this.shareable
+    required this.archived,
+    required this.shareable
    });
 
 
